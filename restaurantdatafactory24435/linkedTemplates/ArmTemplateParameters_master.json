@@ -11,8 +11,32 @@
 		"AzureDataLakeStorage1_accountKey": {
 			"value": ""
 		},
+		"AzureSqlDatabase1_password": {
+			"value": ""
+		},
+		"AzureSqlDatabase2_password": {
+			"value": ""
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://restaurantnishaadls.dfs.core.windows.net/"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_server": {
+			"value": "restaurantnisha.database.windows.net"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_database": {
+			"value": "restaurantnishaSQLds"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_userName": {
+			"value": "admin"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_server": {
+			"value": "restaurantnishasql.database.windows.net"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_database": {
+			"value": "restaurantdatabasesql"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_userName": {
+			"value": "adm"
 		},
 		"containerUri": {
 			"value": ""
