@@ -141,7 +141,17 @@
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
-				"schema": [],
+				"schema": [
+					{
+						"name": "City_Id",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "City_Name",
+						"type": "nvarchar"
+					}
+				],
 				"typeProperties": {
 					"schema": "SalesLT",
 					"table": "Dim_Speciality1"
@@ -245,7 +255,21 @@
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
-				"schema": [],
+				"schema": [
+					{
+						"name": "Hotel_Id",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Hotel_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Hotel_City",
+						"type": "nvarchar"
+					}
+				],
 				"typeProperties": {
 					"schema": "SalesLT",
 					"table": "Dim_Hotel"
@@ -466,17 +490,21 @@
 						"select1 sort(asc(Speciality_1, true)) ~> sort1",
 						"sort1 aggregate(groupBy(Speciality_1),",
 						"     each(match(name!=\"Speciality_1\"), $$ = first($$))) ~> aggregate1",
-						"aggregate1 keyGenerate(output(Specility_Id as long),",
+						"aggregate1 keyGenerate(output(Speciality_Id as long),",
 						"     startAt: 1L,",
 						"     stepValue: 1L) ~> surrogateKey1",
 						"surrogateKey1 select(mapColumn(",
-						"          Specility_Id,",
+						"          Specility_Id = Speciality_Id,",
 						"          Speciality_1",
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> select2",
 						"select2 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     input(",
+						"          City_Id as long,",
+						"          City_Name as string",
+						"     ),",
 						"     deletable:false,",
 						"     insertable:true,",
 						"     updateable:false,",
@@ -1009,6 +1037,11 @@
 						"     skipDuplicateMapOutputs: true) ~> select2",
 						"select2 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     input(",
+						"          Hotel_Id as long,",
+						"          Hotel_Name as string,",
+						"          Hotel_City as string",
+						"     ),",
 						"     deletable:false,",
 						"     insertable:true,",
 						"     updateable:false,",
@@ -1023,6 +1056,52 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_restaurant')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable_hotel')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "df_Speciality1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_Speciality1",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/df_Speciality1')]"
 			]
 		},
 		{
@@ -1197,89 +1276,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/df_fact_table')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_hotel')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Data flow1",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "df_hotel",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "Data flow2",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "Data flow1",
-								"dependencyConditions": [
-									"Completed"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "df_hotel",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/df_hotel')]"
 			]
 		}
 	]
