@@ -1,5 +1,5 @@
 {
-	"name": "df_city_copy1",
+	"name": "df_fact_table",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -13,16 +13,19 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable1",
+						"referenceName": "AzureSqlTable_city",
 						"type": "DatasetReference"
 					},
 					"name": "source1"
+				},
+				{
+					"name": "source2"
 				}
 			],
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable1",
+						"referenceName": "AzureSqlTable_city",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
@@ -43,6 +46,9 @@
 				},
 				{
 					"name": "select2"
+				},
+				{
+					"name": "join1"
 				}
 			],
 			"scriptLines": [
@@ -65,17 +71,32 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source",
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          City_Id as long,",
+				"          City_Name as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table',",
-				"     partitionBy('hash', 1)) ~> source1",
+				"     format: 'table') ~> source1",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> source2",
 				"source select(mapColumn(",
-				"          City_Name = City",
+				"          City,",
+				"          AvgDinnerPrice,",
+				"          AvgLunchPrice,",
+				"          TotalRating,",
+				"          DinnerRating,",
+				"          LunchRating,",
+				"          Lat,",
+				"          Long,",
+				"          Has_Table_booking,",
+				"          Has_Online_delivery,",
+				"          Votes",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 sort(asc(City_Name, true)) ~> sort1",
+				"join1 sort(asc(City_Name, true)) ~> sort1",
 				"sort1 aggregate(groupBy(City_Name),",
 				"     each(match(name!=\"City_Name\"), $$ = first($$))) ~> aggregate1",
 				"aggregate1 keyGenerate(output(City_Id as long),",
@@ -87,6 +108,11 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select2",
+				"select1, source1 join(City == City_Name,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
 				"select2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",

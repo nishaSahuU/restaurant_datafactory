@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable1",
+						"referenceName": "AzureSqlTable_city",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"

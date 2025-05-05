@@ -1,5 +1,5 @@
 {
-	"name": "AzureSqlTable_hotel",
+	"name": "AzureSqlTable_Speciality2",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureSqlDatabase2",
@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "SalesLT",
-			"table": "Dim_Hotel"
+			"table": "Dim_Speciality2"
 		}
 	}
 }
