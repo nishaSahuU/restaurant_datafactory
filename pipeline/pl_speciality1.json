@@ -1,9 +1,9 @@
 {
-	"name": "pipeline1",
+	"name": "pl_speciality1",
 	"properties": {
 		"activities": [
 			{
-				"name": "df_Speciality1",
+				"name": "df_Speciality_1",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "df_Speciality1",
+						"referenceName": "df_Speciality_1",
 						"type": "DataFlowReference"
 					},
 					"compute": {

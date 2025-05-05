@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "SalesLT",
-			"table": "Speciality1"
+			"table": "Dim_Speciality_1"
 		}
 	}
 }

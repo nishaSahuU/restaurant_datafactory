@@ -26,17 +26,9 @@
 					"name": "HotelTable"
 				},
 				{
-					"dataset": {
-						"referenceName": "AzureSqlTable_Speciality1",
-						"type": "DatasetReference"
-					},
 					"name": "Speciality1"
 				},
 				{
-					"dataset": {
-						"referenceName": "AzureSqlTable_Speciality2",
-						"type": "DatasetReference"
-					},
 					"name": "Speciality2"
 				}
 			],
@@ -120,17 +112,13 @@
 				"          City_Name as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> Speciality1",
+				"     validateSchema: false) ~> Speciality1",
 				"source(output(",
 				"          City_Id as long,",
 				"          City_Name as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> Speciality2",
+				"     validateSchema: false) ~> Speciality2",
 				"source select(mapColumn(",
 				"          Name,",
 				"          City,",
