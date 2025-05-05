@@ -1,5 +1,5 @@
 {
-	"name": "df_city_copy1",
+	"name": "df_fact_table",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -13,7 +13,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "ds_restaurant",
+						"referenceName": "AzureSqlTable1",
 						"type": "DatasetReference"
 					},
 					"name": "source1"
@@ -65,25 +65,10 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source",
-				"source(output(",
-				"          Name as string,",
-				"          City as string,",
-				"          Speciality_1 as string,",
-				"          Speciality_2 as string,",
-				"          AvgDinnerPrice as string,",
-				"          AvgLunchPrice as string,",
-				"          TotalRating as string,",
-				"          DinnerRating as string,",
-				"          LunchRating as string,",
-				"          Lat as string,",
-				"          Long as string,",
-				"          Has_Table_booking as string,",
-				"          Has_Online_delivery as string,",
-				"          Votes as string",
-				"     ),",
-				"     allowSchemaDrift: true,",
+				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source1",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
 				"source select(mapColumn(",
 				"          AvgDinnerPrice,",
 				"          AvgLunchPrice,",
