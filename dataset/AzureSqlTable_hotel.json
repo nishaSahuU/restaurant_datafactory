@@ -7,7 +7,21 @@
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
-		"schema": [],
+		"schema": [
+			{
+				"name": "Hotel_Id",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "Hotel_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Hotel_City",
+				"type": "nvarchar"
+			}
+		],
 		"typeProperties": {
 			"schema": "SalesLT",
 			"table": "Dim_Hotel"
