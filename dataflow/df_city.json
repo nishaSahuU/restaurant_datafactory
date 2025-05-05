@@ -29,6 +29,12 @@
 					"name": "sort1"
 				},
 				{
+					"name": "aggregate1"
+				},
+				{
+					"name": "surrogateKey1"
+				},
+				{
 					"name": "select2"
 				}
 			],
@@ -53,16 +59,19 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source",
 				"source select(mapColumn(",
-				"          Hotel_Name = Name,",
-				"          Hotel_City = City",
+				"          City_Name = City",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 sort(asc(Hotel_Name, true)) ~> sort1",
-				"sort1 select(mapColumn(",
-				"          Hotel_Id,",
-				"          Hotel_Name,",
-				"          Hotel_City",
+				"select1 sort(asc(City_Name, true)) ~> sort1",
+				"sort1 aggregate(groupBy(City_Name),",
+				"     each(match(name!=\"City_Name\"), $$ = first($$))) ~> aggregate1",
+				"aggregate1 keyGenerate(output(City_Id as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey1",
+				"surrogateKey1 select(mapColumn(",
+				"          City_Id,",
+				"          City_Name",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select2",
