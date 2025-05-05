@@ -174,7 +174,7 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join2",
-				"join2, Speciality1 join(Speciality_1 == Speciality1@City_Name,",
+				"join2, Speciality1 join(Speciality_1 == ERROR_FUNCTION(''),",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
