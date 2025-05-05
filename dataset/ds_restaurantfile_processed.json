@@ -11,7 +11,7 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": "Dim_Hotel",
-				"container": "processed"
+				"container": "process"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",

@@ -29,9 +29,6 @@
 					"name": "sort1"
 				},
 				{
-					"name": "surrogateKey1"
-				},
-				{
 					"name": "select2"
 				}
 			],
@@ -62,10 +59,7 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
 				"select1 sort(asc(Hotel_Name, true)) ~> sort1",
-				"sort1 keyGenerate(output(Hotel_Id as long),",
-				"     startAt: 1L,",
-				"     stepValue: 1L) ~> surrogateKey1",
-				"surrogateKey1 select(mapColumn(",
+				"sort1 select(mapColumn(",
 				"          Hotel_Id,",
 				"          Hotel_Name,",
 				"          Hotel_City",
