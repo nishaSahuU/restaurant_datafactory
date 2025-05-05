@@ -1,0 +1,16 @@
+{
+	"name": "AzureSqlTable_Speiality2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SalesLT",
+			"table": "Dim_Speciality_2"
+		}
+	}
+}
