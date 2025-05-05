@@ -1,0 +1,26 @@
+{
+	"name": "AzureSqlTable_fact",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "City_Id",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "City_Name",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SalesLT",
+			"table": "dim_fact_table"
+		}
+	}
+}

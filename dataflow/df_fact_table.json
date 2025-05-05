@@ -43,7 +43,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable_city",
+						"referenceName": "AzureSqlTable_fact",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
