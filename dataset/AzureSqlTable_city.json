@@ -7,7 +7,17 @@
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
-		"schema": [],
+		"schema": [
+			{
+				"name": "City_Id",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "City_Name",
+				"type": "nvarchar"
+			}
+		],
 		"typeProperties": {
 			"schema": "SalesLT",
 			"table": "dim_city"
