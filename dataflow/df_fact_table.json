@@ -26,9 +26,17 @@
 					"name": "HotelTable"
 				},
 				{
+					"dataset": {
+						"referenceName": "AzureSqlTable_Speiality1",
+						"type": "DatasetReference"
+					},
 					"name": "Speciality1"
 				},
 				{
+					"dataset": {
+						"referenceName": "AzureSqlTable_Speiality2",
+						"type": "DatasetReference"
+					},
 					"name": "Speciality2"
 				}
 			],
@@ -107,18 +115,14 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> HotelTable",
-				"source(output(",
-				"          City_Id as long,",
-				"          City_Name as string",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false) ~> Speciality1",
-				"source(output(",
-				"          City_Id as long,",
-				"          City_Name as string",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false) ~> Speciality2",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Speciality1",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Speciality2",
 				"source select(mapColumn(",
 				"          Name,",
 				"          City,",
@@ -182,7 +186,7 @@
 				"     broadcast: 'auto')~> join4",
 				"join4 select(mapColumn(",
 				"          Hotel_Id,",
-				"          City_Id = CityTable@City_Id,",
+				"          City_Id,",
 				"          Speciality_1 = Speciality1@City_Id,",
 				"          Speciality_2 = Speciality2@City_Id,",
 				"          AvgDinnerPrice,",
