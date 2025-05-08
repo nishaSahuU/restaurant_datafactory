@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "Dim_Speciality_2"
+			"table": "Dim_Speciality2"
 		}
 	}
 }

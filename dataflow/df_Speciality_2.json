@@ -1,0 +1,91 @@
+{
+	"name": "df_Speciality_2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_restaurant",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable_Speiality2",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "select1"
+				},
+				{
+					"name": "sort1"
+				},
+				{
+					"name": "aggregate1"
+				},
+				{
+					"name": "surrogateKey1"
+				},
+				{
+					"name": "select2"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Name as string,",
+				"          City as string,",
+				"          Speciality_1 as string,",
+				"          Speciality_2 as string,",
+				"          AvgDinnerPrice as string,",
+				"          AvgLunchPrice as string,",
+				"          TotalRating as string,",
+				"          DinnerRating as string,",
+				"          LunchRating as string,",
+				"          Lat as string,",
+				"          Long as string,",
+				"          Has_Table_booking as string,",
+				"          Has_Online_delivery as string,",
+				"          Votes as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 select(mapColumn(",
+				"          Speciality_2",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sort(asc(Speciality_2, true)) ~> sort1",
+				"sort1 aggregate(groupBy(Speciality_2),",
+				"     each(match(name!=\"Speciality_2\"), $$ = first($$))) ~> aggregate1",
+				"aggregate1 keyGenerate(output(Speciality2_ID as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey1",
+				"surrogateKey1 select(mapColumn(",
+				"          Speciality2_ID,",
+				"          Speciality_2",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2",
+				"select2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+			]
+		}
+	}
+}

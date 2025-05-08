@@ -23,7 +23,7 @@
 			}
 		],
 		"typeProperties": {
-			"schema": "SalesLT",
+			"schema": "dbo",
 			"table": "Dim_Hotel"
 		}
 	}

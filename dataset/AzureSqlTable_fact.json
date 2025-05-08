@@ -19,7 +19,7 @@
 			}
 		],
 		"typeProperties": {
-			"schema": "SalesLT",
+			"schema": "dbo",
 			"table": "dim_fact_table"
 		}
 	}
